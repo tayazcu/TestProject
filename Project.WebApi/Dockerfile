@@ -1,22 +1,21 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+# Get base SDK Image from Microsoft
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 as build-env
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
-WORKDIR /src
-COPY ["Project.WebApi.csproj", "."]
-RUN dotnet restore "./Project.WebApi.csproj"
-COPY . .
-WORKDIR "/src/."
-RUN dotnet build "Project.WebApi.csproj" -c Release -o /app/build
+# Expose ports
+EXPOSE 5000
+EXPOSE 5001
 
-FROM build AS publish
-RUN dotnet publish "Project.WebApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
+# copy the CSPROJ file and restore any dependency (via NUGET)
+Copy . ./
+WORKDIR /app/Project.WebApi
+RUN dotnet restore
 
-FROM base AS final
+# copy the projct files and build our release
+RUN dotnet publish -c Release -o out
+
+# Generate runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:5.0
 WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Project.WebApi.dll"]
+COPY --from=build-env /app/Project.WebApi/out .
+ENTRYPOINT ["dotnet" , "Project.WebApi.dll"]
