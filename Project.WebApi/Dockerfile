@@ -1,5 +1,5 @@
 # Get base SDK Image from Microsoft
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 as build-env
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 as build-env
 WORKDIR /app
 
 # Expose ports
