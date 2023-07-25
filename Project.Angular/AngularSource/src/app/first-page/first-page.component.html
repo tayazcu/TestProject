@@ -1,0 +1,28 @@
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>summary</th>
+      <th>temperatureC</th>
+      <th>temperatureF</th>
+      <th>Date</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of list;let i = index">
+      <td><span class="res-head">{{i +1 }}</span></td>
+      <td><span class="res-head">{{item.summary}}</span></td>
+      <td><span class="res-head">{{item.temperatureC}}</span></td>
+      <td><span class="res-head">{{item.temperatureF}}</span></td>
+      <td><span class="res-head">{{item.date | date}}</span></td>
+      <td class="action">
+        <button>Add</button>
+        <button>Edit</button>
+        <button>Delete</button>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
