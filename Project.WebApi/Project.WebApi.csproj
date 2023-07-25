@@ -6,7 +6,7 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>Project.WebApi</DocumentationFile>
+    <DocumentationFile>Project.WebApi.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
