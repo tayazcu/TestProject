@@ -25,10 +25,10 @@ COPY nginx.conf  /etc/nginx/conf.d/default.conf
 # Exposing a port, here it means that inside the container
 EXPOSE 80
 
-# COPY docker-entrypoint.sh .
-# RUN chmod +x docker-entrypoint.sh
-# ENTRYPOINT ["./docker-entrypoint.sh"]
+COPY docker-entrypoint.sh .
+RUN chmod +x docker-entrypoint.sh
+ENTRYPOINT ["./docker-entrypoint.sh"]
 
-CMD ["nginx", "-g", "daemon off;"]
+# CMD ["nginx", "-g", "daemon off;"]
 
 
