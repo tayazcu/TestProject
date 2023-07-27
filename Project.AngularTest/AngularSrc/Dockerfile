@@ -1,15 +1,26 @@
-FROM node:13.3.0 AS compile-image
+### STAGE 1:BUILD ###
+FROM node:16.16.0-slim as Build
 
-RUN npm install
+# Create a Virtual directory inside the docker image
+WORKDIR /app
 
-WORKDIR /opt/ng
-COPY package.json ./
+COPY ./package.json .
+COPY ./package-lock.json .
+RUN npm i -f
 
-ENV PATH="./node_modules/.bin:$PATH"
+# Copy files from local machine to virtual directory in docker image
+COPY . .
 
-COPY . ./
-RUN ng build --prod
+# Run command in Virtual directory
 
-FROM nginx
-COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=compile-image /opt/ng/dist/angular-src /usr/share/nginx/html
+RUN npm run ngb-prod
+
+### STAGE 2:RUN ###
+FROM node:16.16.0-slim
+
+# Copying compiled code and nginx config to different folder
+COPY --from=build /app/dist/angular-src /usr/share/nginx/html
+COPY nginx.conf  /etc/nginx/conf.d/default.conf
+
+
+
