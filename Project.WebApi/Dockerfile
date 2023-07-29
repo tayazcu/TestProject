@@ -1,4 +1,4 @@
-# Get base SDK Image from Microsoft
+# # Get base SDK Image from Microsoft
 FROM mcr.microsoft.com/dotnet/sdk:6.0 as build-env
 WORKDIR /app
 
