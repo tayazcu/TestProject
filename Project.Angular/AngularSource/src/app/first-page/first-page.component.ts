@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { HttpClient, HttpEventType, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-first-page',
@@ -8,19 +9,69 @@ import { ApiService } from '../services/api.service';
 })
 export class FirstPageComponent implements OnInit {
 
-  constructor(private api: ApiService) { }
+  datas:any;
+  images:any;
+
+  constructor(private api: ApiService,private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.get();
+    this.getDatas();
+    this.getImages();
   }
 
-  list:any;
-  get(){
+  getDatas(){
     this.api.get('/api/WeatherForecast/Get').subscribe((res:any)=>{
-      this.list = res
-      console.log(res);
-
+      this.datas = res
     });
   }
+
+  getImages(){
+    this.api.get('/api/Picture/Get').subscribe((res:any)=>{
+      this.images = res
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  @Output() public onUploadFinished = new EventEmitter();
+  progress: any;
+  message: any;
+  uploadFile = (files:any) => {
+    if (files.length === 0) {
+      return;
+    }
+    let fileToUpload = <File>files[0];
+    const formData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+    const _url = this.api.getServerUrl('') + '/api/Picture/UploadImage';
+    this.http.post(_url, formData, {reportProgress: true, observe: 'events'})
+      .subscribe({
+        next: (event : any) => {
+        if (event.type === HttpEventType.UploadProgress)
+          this.progress = Math.round(100 * event.loaded / event.total);
+        else if (event.type === HttpEventType.Response) {
+          this.message = 'Upload success.';
+          this.onUploadFinished.emit(event.body);
+        }
+      },
+      error: (err: HttpErrorResponse) => console.log(err)
+    });
+
+  }
+
+
+
+
+
 
 }

@@ -1,0 +1,32 @@
+version: '3.3'
+
+services:
+    webApi:
+        image : 
+            localhost:5000/test/testproject-webgapi:2023-7-24-v1
+        ports:
+            - "5011:5000"
+        networks : 
+            - webNetwork
+        restart: always
+        env_file: webapi.env
+    angular:
+        image : 
+            localhost:5000/test/testproject-angular:2023-7-24-v1
+        ports:
+            - "4200:80"
+        networks : 
+            - webNetwork
+        restart: always
+        env_file : angular.env
+    angularTest:
+        image : 
+            localhost:5000/test/testproject-angular-test:2023-7-24-v1
+        ports:
+            - "4201:80"
+        networks : 
+            - webNetwork
+        restart: always
+networks:
+    webNetwork :
+        driver: bridge
