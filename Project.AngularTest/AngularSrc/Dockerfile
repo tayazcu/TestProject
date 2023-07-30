@@ -12,14 +12,13 @@ RUN npm i -f
 COPY . .
 
 # Run command in Virtual directory
-
-RUN npm run ngb-prod
+RUN npm run build
 
 ### STAGE 2:RUN ###
 FROM nginx:1.18.0-alpine
 
 # Copying compiled code and nginx config to different folder
-COPY --from=build /app/dist/project-src /usr/share/nginx/html
+COPY --from=build /app/dist/angular-src /usr/share/nginx/html
 COPY nginx.conf  /etc/nginx/conf.d/default.conf
 
 # Exposing a port, here it means that inside the container
