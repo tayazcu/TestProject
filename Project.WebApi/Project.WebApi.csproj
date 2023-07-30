@@ -5,8 +5,6 @@
     <UserSecretsId>2ee2e8a1-3e8c-4c6c-8583-534d2360075f</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>Project.WebApi.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

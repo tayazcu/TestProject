@@ -16,7 +16,7 @@ COPY . .
 RUN npm run ngb-prod
 
 ### STAGE 2:RUN ###
-FROM nginix
+FROM nginx:1.18.0-alpine
 
 # Copying compiled code and nginx config to different folder
 COPY --from=build /app/dist/project-angular /usr/share/nginx/html
