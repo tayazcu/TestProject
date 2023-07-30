@@ -7,7 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.WebApi", "Project.W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Angular", "..\Project.Angular\Project.Angular.csproj", "{AE56E0D3-A84C-4685-84AD-5E407831EBE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.AngularTest", "..\Project.AngularTest\Project.AngularTest.csproj", "{473A5A1D-2EAB-4ACF-9B7E-86F105D6A153}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.AngularTest", "..\Project.AngularTest\Project.AngularTest.csproj", "{473A5A1D-2EAB-4ACF-9B7E-86F105D6A153}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{622F8003-C6DE-4078-BC9D-0F3CF4B70766}"
+	ProjectSection(SolutionItems) = preProject
+		..\Docker\angular.env = ..\Docker\angular.env
+		..\Docker\docker-compose.yml = ..\Docker\docker-compose.yml
+		..\Docker\DockerComposeRun.sh = ..\Docker\DockerComposeRun.sh
+		..\Docker\webapi.env = ..\Docker\webapi.env
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
