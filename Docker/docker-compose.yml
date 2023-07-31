@@ -11,7 +11,8 @@ services:
         restart: always
         env_file: webapi.env
         volumes:
-            - /volumes/TestProjectFiels:/app/wwwroot/images/
+            - /volumes/TestProjectFiels/images:/app/wwwroot/images/
+            - /volumes/TestProjectFiels/fonts:/app/wwwroot/fonts/
     angular:
         image : 
             localhost:5000/test/testproject-angular:2023-7-24-v1
