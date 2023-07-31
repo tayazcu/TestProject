@@ -39,7 +39,10 @@ namespace Project.WebApi.Controllers
         {
             try
             {
+                var fileName = Path.GetFileName(file.FileName);
+                _logger.LogInformation($"--------image {fileName} not uploaded, step 1 - in upliad method");
                 await UploadFile(file);
+                _logger.LogInformation($"--------image {fileName} not uploaded, step 2 - in upliad method");
                 return StatusCode(200);
             }
             catch (Exception ex)
@@ -55,8 +58,14 @@ namespace Project.WebApi.Controllers
             if (ufile != null && ufile.Length > 0)
             {
                 var fileName = Path.GetFileName(ufile.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
+
+                var provider = new PhysicalFileProvider(_webHostEnvironmen.WebRootPath);
+                var ss = provider.Root;
+                var sd = Path.Combine(ss, "images");
+                var sddd = Path.Combine(sd, fileName);
+
+                //var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+                using (var fileStream = new FileStream(sddd, FileMode.Create))
                 {
                     await ufile.CopyToAsync(fileStream);
                 }
