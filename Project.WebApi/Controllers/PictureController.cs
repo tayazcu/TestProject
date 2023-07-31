@@ -38,32 +38,41 @@ namespace Project.WebApi.Controllers
         public IActionResult Get()
         {
             string myDb1ConnectionString = _configuration.GetConnectionString("DefaultConnection");
-            var options = new DbContextOptionsBuilder<DbContexts>().UseSqlServer(myDb1ConnectionString).Options;
+            _logger.LogInformation($"--------ConnectionString is {myDb1ConnectionString}");
 
             List<Info> infos = new List<Info>();
 
-            var provider = new PhysicalFileProvider(_webHostEnvironmen.WebRootPath);
-            var contents = provider.GetDirectoryContents(Path.Combine("images"));
-            foreach (var item in contents)
+            try
             {
-                ImageWork image = null;
-                using (DbContexts db = new DbContexts(options))
-                {
-                    image = db.ImageWork.Where(x => x.FileName.Equals(item.Name)).FirstOrDefault();
-                    if (image == null)
-                    {
-                        image = new ImageWork
-                        {
-                            FileName = "Not Exist"
-                        };
-                    }
-                }
+                var options = new DbContextOptionsBuilder<DbContexts>().UseSqlServer(myDb1ConnectionString).Options;
 
-                infos.Add(new Info
+                var provider = new PhysicalFileProvider(_webHostEnvironmen.WebRootPath);
+                var contents = provider.GetDirectoryContents(Path.Combine("images"));
+                foreach (var item in contents)
                 {
-                    Information = item,
-                    dbName = image.FileName,
-                });
+                    ImageWork image = null;
+                    using (DbContexts db = new DbContexts(options))
+                    {
+                        image = db.ImageWork.Where(x => x.FileName.Equals(item.Name)).FirstOrDefault();
+                        if (image == null)
+                        {
+                            image = new ImageWork
+                            {
+                                FileName = "Not Exist"
+                            };
+                        }
+                    }
+
+                    infos.Add(new Info
+                    {
+                        Information = item,
+                        dbName = image.FileName,
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"--------ConnectionString is {ex}");
             }
             //var objFiles = contents.OrderBy(m => m.LastModified);
             return new JsonResult(infos);
