@@ -27,6 +27,7 @@ export class FirstPageComponent implements OnInit {
 
   getImages(){
     this.api.get('/api/Picture/Get').subscribe((res:any)=>{
+      debugger
       this.images = res
     });
   }
