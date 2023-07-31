@@ -10,6 +10,8 @@ services:
             - webNetwork
         restart: always
         env_file: webapi.env
+        volumes:
+            - /testprojectgiles:/app/wwwroot/images/
     angular:
         image : 
             localhost:5000/test/testproject-angular:2023-7-24-v1
