@@ -38,7 +38,19 @@ namespace Project.WebApi
 
             services.AddControllers();
 
-            services.AddDbContext<DbContexts>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<DbContexts>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContextPool<DbContexts>(options =>
+            {
+                options.UseSqlServer(
+                    connectionString,
+                    options => options.EnableRetryOnFailure(
+                        maxRetryCount: 5,
+                        maxRetryDelay: System.TimeSpan.FromSeconds(30),
+                        errorNumbersToAdd: null)
+                    );
+            });
 
             services.AddCors(options =>
             {
