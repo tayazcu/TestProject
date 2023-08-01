@@ -25,6 +25,12 @@ namespace Project.WebApi.Models
                     .IsUnicode(true)
                     .IsRequired(true)
                     .HasColumnType("nvarchar(2000)");
+
+                entity.Property(c => c.Image)
+                .HasColumnType("Varbinary(max)");
+
+                entity.Property(c => c.FileType)
+                    .HasColumnType("varchar(50)");
             });
 
         }

@@ -45,8 +45,9 @@
   <thead>
     <tr>
       <th>name</th>
-      <th>image</th>
+      <th>image url</th>
       <th>Db Name</th>
+      <th>image</th>
       <th>Action</th>
     </tr>
   </thead>
@@ -55,6 +56,9 @@
       <td><span class="res-head">{{item.information.name}}</span></td>
       <td><span class="res-head">{{item.information.physicalPath}}</span></td>
       <td><span class="res-head">{{item.dbName}}</span></td>
+      <td><span class="res-head">
+        <img [src]="item.dataUrl ? item.dataUrl : '/assets/images/img_avatar.png'">
+      </span></td>
       <td class="action">
         <button>Delete</button>
       </td>

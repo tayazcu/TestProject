@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
+using System.Xml;
 
 namespace Project.WebApi.Controllers
 {
@@ -67,6 +68,9 @@ namespace Project.WebApi.Controllers
                     {
                         Information = item,
                         dbName = image.FileName,
+                        FileSize = image.FileSize,
+                        FileType = image.FileType,
+                        DbImage = image.Image
                     });
                 }
             }
@@ -79,7 +83,7 @@ namespace Project.WebApi.Controllers
         }
 
         [HttpPost(template: "UploadImage")]
-        public async Task<IActionResult> Post([FromForm] IFormFile file)
+        public async Task<IActionResult> Post([FromForm] IFormFile file , [FromForm] string fileString)
         {
             try
             {
@@ -95,6 +99,14 @@ namespace Project.WebApi.Controllers
                     ImageWork img = new ImageWork();
                     img.FileName = fileName;
                     db.ImageWork.Add(img);
+
+                    if (fileString != null)
+                    {
+                        img.Image = Convert.FromBase64String(fileString.Split(";base64,")[1]);
+                        img.FileSize = fileString.Length;
+                        img.FileType = fileString.Split(";base64,")[0].Split(":")[1];
+                    }
+
                     db.SaveChanges();
                     _logger.LogInformation($"--------image {fileName} not uploaded, step 3 - added to database");
                 }
@@ -130,6 +142,5 @@ namespace Project.WebApi.Controllers
             }
             return false;
         }
-        
     }
 }
