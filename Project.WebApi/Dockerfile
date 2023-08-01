@@ -17,6 +17,12 @@ COPY . ./
 WORKDIR /app/Project.WebApi
 RUN dotnet publish -c Release -o out
 
+# ef migration
+# RUN dotnet tool install --global dotnet-ef
+# ENV PATH="$PATH:/root/.dotnet/tools"
+# RUN dotnet ef database update -c DbContexts
+
+
 # Generate runtime image
 FROM mcr.microsoft.com/dotnet/sdk:6.0
 WORKDIR /app
