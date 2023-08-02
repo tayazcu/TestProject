@@ -30,7 +30,7 @@ namespace Project.WebApi.Controllers
         private readonly IWebHostEnvironment _webHostEnvironmen;
         private readonly IConfiguration _configuration;
 
-        public PictureController(ILogger<PictureController> logger, IWebHostEnvironment webHostEnvironmen , IConfiguration configuration)
+        public PictureController(ILogger<PictureController> logger, IWebHostEnvironment webHostEnvironmen, IConfiguration configuration)
         {
             _logger = logger;
             _webHostEnvironmen = webHostEnvironmen;
@@ -88,7 +88,7 @@ namespace Project.WebApi.Controllers
         }
 
         [HttpPost(template: "UploadImage")]
-        public async Task<IActionResult> Post([FromForm] IFormFile file , [FromForm] string fileString)
+        public async Task<IActionResult> Post([FromForm] IFormFile file, [FromForm] string fileString)
         {
             try
             {
@@ -146,6 +146,41 @@ namespace Project.WebApi.Controllers
                 return true;
             }
             return false;
+        }
+
+        [HttpPost(template: "RemoveImage")]
+        public async Task<IActionResult> Delete([FromForm] string imageName)
+        {
+            string myDb1ConnectionString = _configuration.GetConnectionString("DefaultConnection");
+            var options = new DbContextOptionsBuilder<DbContexts>().UseSqlServer(myDb1ConnectionString).Options;
+
+            try
+            {
+                using (DbContexts db = new DbContexts(options))
+                {
+                    ImageWork image = db.ImageWork.Where(x => x.FileName.Equals(imageName)).FirstOrDefault();
+                    _logger.LogInformation($"--------JsonSerializer.Serialize for remove is: {image}");
+                    if (image == null)
+                    {
+                        return new JsonResult("Not Exist");
+                    }
+
+                    var provider = new PhysicalFileProvider(_webHostEnvironmen.WebRootPath);
+                    var dir = Path.Combine(Path.Combine(provider.Root, "images"), image.FileName);
+                    if (System.IO.File.Exists(dir))
+                    {
+                        System.IO.File.Delete(dir);
+                        db.ImageWork.Remove(image);
+                        db.SaveChanges();
+                        return new JsonResult("OK");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"--------ConnectionString from catch is {ex}");
+            }
+            return new JsonResult("No Action");
         }
     }
 }

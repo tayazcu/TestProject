@@ -31,7 +31,17 @@ export class FirstPageComponent implements OnInit {
   getImages(){
     this.api.get('/api/Picture/Get').subscribe((res:any)=>{
       debugger
-      this.images = res
+
+      let finalRes : any[] = []
+
+      res.forEach((element:any) => {
+        let finalRes1;
+        finalRes1 = {...element};
+        finalRes1.dataUrl = "data:" + element.fileType + ';base64,' + element.dbImage;
+        finalRes.push(finalRes1);
+      });
+
+      this.images = finalRes
     });
   }
 
@@ -45,7 +55,7 @@ export class FirstPageComponent implements OnInit {
 debugger
     this.onSelectFile(files);
 
-    
+
   }
 
   mimeType:any;
@@ -64,7 +74,7 @@ debugger
         let ddd=e.currentTarget.result;
         debugger
         console.log('ddd: '+ ddd);
-        
+
 
 
         let fileToUpload = <File>eventImage[0];
@@ -81,11 +91,13 @@ debugger
             else if (event.type === HttpEventType.Response) {
               this.message = 'Upload success.';
               this.onUploadFinished.emit(event.body);
+    this.getImages();
+
             }
           },
           error: (err: HttpErrorResponse) => console.log(err)
         });
-    
+
 
 
 
@@ -99,6 +111,22 @@ debugger
     reader.readAsDataURL(eventImage[0]);
     console.log(this.dataUrl);
 
+}
+
+remove(fileName:any){
+  const formData = new FormData();
+  formData.append('imageName', fileName);
+  const _url = this.api.getServerUrl('') + '/api/Picture/RemoveImage';
+
+  this.http.post(_url, formData).subscribe((res) =>{
+    debugger
+    if(res == "OK"){
+      this.message = 'Remove success.';
+      this.getImages();
+    }else{
+      this.message = 'Remove Failed.';
+    }
+  });
 }
 
 

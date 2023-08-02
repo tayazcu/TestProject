@@ -57,10 +57,10 @@
       <td><span class="res-head">{{item.information.physicalPath}}</span></td>
       <td><span class="res-head">{{item.dbName}}</span></td>
       <td><span class="res-head">
-        <img [src]="item.dataUrl ? item.dataUrl : '/assets/images/img_avatar.png'">
+        <img class="img" [src]="item.dataUrl ? item.dataUrl : '/assets/images/img_avatar.png'">
       </span></td>
       <td class="action">
-        <button>Delete</button>
+        <button type="button" class="btn btn-remove" (click)="remove(item.information.name)">Delete</button>
       </td>
     </tr>
   </tbody>
