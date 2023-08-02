@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Xml;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace Project.WebApi.Controllers
 {
@@ -63,6 +65,9 @@ namespace Project.WebApi.Controllers
                             };
                         }
                     }
+
+                    string jsonString = JsonSerializer.Serialize(image);
+                    _logger.LogInformation($"--------JsonSerializer.Serialize is: {jsonString}");
 
                     infos.Add(new Info
                     {
