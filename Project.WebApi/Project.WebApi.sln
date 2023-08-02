@@ -15,7 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{622F80
 		..\Docker\docker-compose.yml = ..\Docker\docker-compose.yml
 		..\Docker\DockerComposeRun.sh = ..\Docker\DockerComposeRun.sh
 		..\Docker\webapi.env = ..\Docker\webapi.env
+		..\Docker\webapi2.env = ..\Docker\webapi2.env
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.WebApi2", "..\Project.WebApi2\Project.WebApi2.csproj", "{6297F003-98BE-4608-A339-0EDFA1D48410}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +38,10 @@ Global
 		{473A5A1D-2EAB-4ACF-9B7E-86F105D6A153}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{473A5A1D-2EAB-4ACF-9B7E-86F105D6A153}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{473A5A1D-2EAB-4ACF-9B7E-86F105D6A153}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6297F003-98BE-4608-A339-0EDFA1D48410}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6297F003-98BE-4608-A339-0EDFA1D48410}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6297F003-98BE-4608-A339-0EDFA1D48410}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6297F003-98BE-4608-A339-0EDFA1D48410}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

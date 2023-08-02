@@ -10,9 +10,18 @@ services:
             - webNetwork
         restart: always
         env_file : webapi.env
+        depends_on:
+            - webApi2Service
         volumes:
             - /volumes/TestProjectFiels/images:/app/wwwroot/images/
             - /volumes/TestProjectFiels/fonts:/app/wwwroot/fonts/
+    webApi2Service :
+        image : 
+            localhost:5003/test/testproject-webgapi2:2023-7-24-v1
+        networks : 
+            - webNetwork
+        restart: always
+        env_file: webapi2.env
     angular:
         image : 
             localhost:5000/test/testproject-angular:2023-7-24-v1
