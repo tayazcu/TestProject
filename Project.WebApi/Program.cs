@@ -24,7 +24,7 @@ namespace Project.WebApi
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .ConfigureAppConfiguration(builder =>
                 {
-                    builder.AddEnvironmentVariables(prefix: "WebApi_");
+                    builder.AddEnvironmentVariables(prefix: "PROJECT_WEBAPI_");
                 })
                 .ConfigureLogging((hostContext, logging) =>
                 {
