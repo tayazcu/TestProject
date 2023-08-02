@@ -45,25 +45,7 @@ export class FirstPageComponent implements OnInit {
 debugger
     this.onSelectFile(files);
 
-    let fileToUpload = <File>files[0];
-    const formData = new FormData();
-    formData.append('file', fileToUpload, fileToUpload.name);
-    formData.append('fileString',  this.dataUrl);
-    const _url = this.api.getServerUrl('') + '/api/Picture/UploadImage';
-    let body = null;
-    this.http.post(_url, formData, {reportProgress: true, observe: 'events'})
-      .subscribe({
-        next: (event : any) => {
-        if (event.type === HttpEventType.UploadProgress)
-          this.progress = Math.round(100 * event.loaded / event.total);
-        else if (event.type === HttpEventType.Response) {
-          this.message = 'Upload success.';
-          this.onUploadFinished.emit(event.body);
-        }
-      },
-      error: (err: HttpErrorResponse) => console.log(err)
-    });
-
+    
   }
 
   mimeType:any;
@@ -76,18 +58,47 @@ debugger
       this.sizeOneFile = eventImage[0].size;
 
       var reader: FileReader = new FileReader();
-    //   reader.onload =  (readerEvt: any) =>{
-    //     var binaryString = readerEvt.target.result;
-    //     this.dataUrl = binaryString;
-    //     this.mimeType = this.dataUrl.substring(this.dataUrl.lastIndexOf("data") + 5, this.dataUrl.lastIndexOf(";"));
-    //     this.dataUrl = this.dataUrl.substring(this.dataUrl.lastIndexOf("base64") + 7);
-    // }
+      reader.onloadend = (e:any)=>{
+        console.log('reader.onloadend');
+        console.log(e);
+        let ddd=e.currentTarget.result;
+        debugger
+        console.log('ddd: '+ ddd);
+        
 
-    reader.onload = (e) => {
-      this.dataUrl=reader.result;
+
+        let fileToUpload = <File>eventImage[0];
+        const formData = new FormData();
+        formData.append('file', fileToUpload, fileToUpload.name);
+        formData.append('fileString',  ddd);
+        const _url = this.api.getServerUrl('') + '/api/Picture/UploadImage';
+        let body = null;
+        this.http.post(_url, formData, {reportProgress: true, observe: 'events'})
+          .subscribe({
+            next: (event : any) => {
+            if (event.type === HttpEventType.UploadProgress)
+              this.progress = Math.round(100 * event.loaded / event.total);
+            else if (event.type === HttpEventType.Response) {
+              this.message = 'Upload success.';
+              this.onUploadFinished.emit(event.body);
+            }
+          },
+          error: (err: HttpErrorResponse) => console.log(err)
+        });
+    
+
+
+
+      }
+      reader.onload = (e:any) => {
+        console.log('reader.onload');
+        console.log(e);
+      this.dataUrl=e.result;
   }
 
     reader.readAsDataURL(eventImage[0]);
+    console.log(this.dataUrl);
+
 }
 
 
