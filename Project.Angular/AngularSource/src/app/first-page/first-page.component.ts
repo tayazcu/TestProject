@@ -40,7 +40,18 @@ export class FirstPageComponent implements OnInit {
 
   getImages(){
     this.api.get('/api/Picture/Get').subscribe((res:any)=>{
-      this.api2DtaTest = res;
+      debugger
+
+      let finalRes : any[] = []
+
+      res.forEach((element:any) => {
+        let finalRes1;
+        finalRes1 = {...element};
+        finalRes1.dataUrl = "data:" + element.fileType + ';base64,' + element.dbImage;
+        finalRes.push(finalRes1);
+      });
+
+      this.images = finalRes
     });
   }
 

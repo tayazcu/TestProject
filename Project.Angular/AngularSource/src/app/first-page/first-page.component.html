@@ -1,5 +1,5 @@
 <div style="background-color: aqua; text-align: center;">
-{{api2DtaTest}}
+  {{api2DtaTest}}
 </div>
 <table class="table">
   <thead>
@@ -29,20 +29,25 @@
   </tbody>
 </table>
 
-<div class="row" style="margin-bottom:15px;">
-  <div class="col-md-3">
-    <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
-    <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
-  </div>
-  <div class="col-md-4">
-    <span class="upload" *ngIf="progress > 0">
-      {{progress}}%
-    </span>
-    <span class="upload" *ngIf="message">
-      {{message}}
-    </span>
+
+
+<div style="background-color: aqua; text-align: center;">
+  <div class="row" style="margin-bottom:15px;">
+    <div class="col-md-3">
+      <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
+      <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
+    </div>
+    <div class="col-md-4">
+      <span class="upload" *ngIf="progress > 0">
+        {{progress}}%
+      </span>
+      <span class="upload" *ngIf="message">
+        {{message}}
+      </span>
+    </div>
   </div>
 </div>
+
 
 <table class="table">
   <thead>
