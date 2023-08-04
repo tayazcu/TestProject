@@ -21,8 +21,6 @@ services:
         networks : 
             - webNetwork
         restart: always
-        ports:
-            - "5011:5003"
         env_file: webapi2.env
     angular:
         image : 
